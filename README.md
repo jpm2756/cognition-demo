@@ -10,8 +10,10 @@ Base app: [`aws-samples/aws-mainframe-modernization-carddemo`](https://github.co
 |---|---|
 | `legacy/` | The **unmodified** COBOL program `CBACT01C.cbl` + copybooks, a loader (`ACCTLOAD.cob`) that stages the ASCII account extract into an indexed file, COBOL stubs for the `COBDATFT` assembler date routine and the `CEE3ABD` abend service, and `run_cobol.sh` which builds/runs it and emits the **golden baseline**. |
 | `modern/` | Cloud-native TypeScript reimplementation (`src/cbact01c.ts`) + differential **parity tests** (`test/parity.test.ts`). |
+| `modern/db/` | **Database-parity harness** (`parityDb.ts` + `schema.sql`): loads the legacy baseline and the modern output into Postgres and proves parity with a SQL diff + a `SUM(curr_bal)` reconciliation. |
 | `docs/CBACT01C.md` | The extracted business-logic spec (workflow step 1). |
-| `.github/workflows/parity.yml` | CI: install GnuCOBOL → build COBOL baseline → run modern parity tests. |
+| `docs/db-parity.md` | How the database-parity harness works and what it proves. |
+| `.github/workflows/parity.yml` | CI: install GnuCOBOL → build COBOL baseline → run modern parity tests → run the Postgres database-parity check. |
 
 ## Run it
 
@@ -23,6 +25,11 @@ cd legacy && ./run_cobol.sh          # -> legacy/out/cbact01c.golden.txt
 cd ../modern && npm install
 npm run typecheck
 npm test                              # asserts modern stdout == COBOL baseline, byte-for-byte
+
+# 3) (optional) database parity: prove it as an auditor would, in SQL
+#    needs a reachable Postgres; point DATABASE_URL at it.
+export DATABASE_URL=postgres://user:pass@localhost:5432/carddemo
+npm run test:db                       # 0 mismatched rows + SUM(curr_bal) reconciles to the cent
 ```
 
 ## Why this is the demo
