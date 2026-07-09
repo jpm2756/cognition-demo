@@ -115,7 +115,13 @@ export function parseReport(text: string): AccountRow[] {
   return rows;
 }
 
-async function loadTable(client: Client, table: string, rows: AccountRow[]): Promise<void> {
+const ALLOWED_TABLES = ["legacy_accounts", "modern_accounts"] as const;
+type TableName = (typeof ALLOWED_TABLES)[number];
+
+async function loadTable(client: Client, table: TableName, rows: AccountRow[]): Promise<void> {
+  if (!ALLOWED_TABLES.includes(table)) {
+    throw new Error(`refusing to load unknown table: ${table}`);
+  }
   await client.query(`TRUNCATE ${table}`);
   const cols = COLUMNS.join(", ");
   for (const row of rows) {
