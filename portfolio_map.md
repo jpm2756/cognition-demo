@@ -4,18 +4,18 @@
 
 | Program | Function | LOC | Files | External deps | Complexity | Status |
 |---|---|---:|:--:|---|:--:|---|
-| **CBACT01C** | Read account master; print + derive report records | 430 | 4 | COBDATFT, CEE3ABD | Med | ✅ **Modernized (parity green)** |
-| CBACT02C | Read & print card data file | 178 | 1 | CEE3ABD | Low | Analyzed — candidate |
-| CBACT03C | Read & print account cross-reference file | 178 | 1 | CEE3ABD | Low | Analyzed — candidate |
-| CBCUS01C | Read & print customer data file | 178 | 1 | CEE3ABD | Low | Analyzed — candidate |
-| CBACT04C | Interest calculator | 652 | 5 | CEE3ABD | High | Analyzed — candidate |
-| CBTRN01C | Post daily transactions (validation) | 494 | 6 | CEE3ABD | High | Analyzed — candidate |
-| CBTRN02C | Post daily transactions (category balance) | 731 | 6 | CEE3ABD | High | Analyzed — candidate |
-| CBTRN03C | Print transaction detail report | 649 | 6 | CEE3ABD | Med | Analyzed — candidate |
-| CBSTM03A | Print account statements from transaction data | 924 | 2 | CBSTM03B, CEE3ABD | High | Analyzed — candidate |
-| CBSTM03B | Statement sub-program (file processing) | 230 | 4 | — | Med | Analyzed — candidate |
-| CBEXPORT | Export customer data for branch migration | 582 | 6 | CEE3ABD | Med | Analyzed — candidate |
-| CBIMPORT | Import customer data from branch export | 487 | 7 | CEE3ABD | Med | Analyzed — candidate |
+| **CBACT01C** | Read account master; print + derive report records | 430 | 4 | COBDATFT, CEE3ABD | Med | ✅ Modernized (parity green) — [PR #1](https://github.com/jpm2756/cognition-demo/pull/1) |
+| CBACT02C | Read & print card data file | 178 | 1 | CEE3ABD | Low | ✅ Modernized (parity green) — [PR #6](https://github.com/jpm2756/cognition-demo/pull/6) |
+| CBACT03C | Read & print account cross-reference file | 178 | 1 | CEE3ABD | Low | ✅ Modernized (parity green) — [PR #5](https://github.com/jpm2756/cognition-demo/pull/5) |
+| CBCUS01C | Read & print customer data file | 178 | 1 | CEE3ABD | Low | ✅ Modernized (parity green) — [PR #4](https://github.com/jpm2756/cognition-demo/pull/4) |
+| CBACT04C | Interest calculator | 652 | 5 | CEE3ABD | High | ✅ Modernized (parity green) — [PR #10](https://github.com/jpm2756/cognition-demo/pull/10) |
+| CBTRN01C | Post daily transactions (validation) | 494 | 6 | CEE3ABD | High | ✅ Modernized (parity green) — [PR #9](https://github.com/jpm2756/cognition-demo/pull/9) |
+| CBTRN02C | Post daily transactions (category balance) | 731 | 6 | CEE3ABD | High | ✅ Modernized (parity green) — [PR #8](https://github.com/jpm2756/cognition-demo/pull/8) |
+| CBTRN03C | Print transaction detail report | 649 | 6 | CEE3ABD | Med | ✅ Modernized (parity green) — [PR #7](https://github.com/jpm2756/cognition-demo/pull/7) |
+| CBSTM03A | Print account statements from transaction data | 924 | 2 | CBSTM03B, CEE3ABD | High | ✅ Modernized (parity green, unit w/ CBSTM03B) — [PR #12](https://github.com/jpm2756/cognition-demo/pull/12) |
+| CBSTM03B | Statement sub-program (file processing) | 230 | 4 | — | Med | ✅ Modernized (parity green, unit w/ CBSTM03A) — [PR #12](https://github.com/jpm2756/cognition-demo/pull/12) |
+| CBEXPORT | Export customer data for branch migration | 582 | 6 | CEE3ABD | Med | ✅ Modernized (parity green) — [PR #11](https://github.com/jpm2756/cognition-demo/pull/11) |
+| CBIMPORT | Import customer data from branch export | 487 | 7 | CEE3ABD | Med | ✅ Modernized (parity green) — [PR #13](https://github.com/jpm2756/cognition-demo/pull/13) |
 
 **Totals:** 12 batch programs, ~5,700 LOC. **Reduce insights:**
 - **Shared dependency:** every program calls `CEE3ABD` (LE abend) — modernize once as a shared runtime shim, reuse across the fleet (a factory economy-of-scale point).
