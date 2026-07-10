@@ -1,18 +1,24 @@
 {
   "name": "carddemo-cbact01c-modern",
   "version": "1.0.0",
-  "description": "Cloud-native modernization of CardDemo batch program CBACT01C, with byte-for-byte parity tests against the GnuCOBOL baseline.",
+  "description": "Cloud-native modernization of CardDemo batch program CBACT01C, proven with a Postgres database-parity harness against the GnuCOBOL baseline.",
   "main": "dist/cbact01c.js",
   "scripts": {
     "build": "tsc",
     "start": "ts-node src/cbact01c.ts ../legacy/acctdata.txt",
-    "test": "node --require ts-node/register --test test/parity.test.ts",
+    "test": "node --require ts-node/register --test test/dbParity.test.ts",
+    "test:db": "node --require ts-node/register --test test/dbParity.test.ts",
+    "db:parity": "ts-node db/parityDb.ts ../legacy/out/cbact01c.golden.txt",
     "typecheck": "tsc --noEmit"
   },
   "keywords": ["carddemo", "cobol", "modernization", "parity-testing"],
   "license": "Apache-2.0",
+  "dependencies": {
+    "pg": "^8.13.1"
+  },
   "devDependencies": {
     "@types/node": "^26.1.0",
+    "@types/pg": "^8.11.10",
     "ts-node": "^10.9.2",
     "typescript": "^6.0.3"
   }

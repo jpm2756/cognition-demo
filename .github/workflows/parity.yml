@@ -8,6 +8,20 @@ on:
 jobs:
   parity:
     runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: carddemo
+          POSTGRES_PASSWORD: carddemo
+          POSTGRES_DB: carddemo
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U carddemo"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
     steps:
       - uses: actions/checkout@v4
 
@@ -30,6 +44,8 @@ jobs:
         working-directory: modern
         run: npm run typecheck
 
-      - name: Differential parity tests (modern output == COBOL baseline)
+      - name: Database parity (SQL diff + SUM(curr_bal) reconciliation)
         working-directory: modern
-        run: npm test
+        env:
+          DATABASE_URL: postgres://carddemo:carddemo@localhost:5432/carddemo
+        run: npm run test:db
